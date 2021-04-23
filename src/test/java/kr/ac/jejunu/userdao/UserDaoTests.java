@@ -14,7 +14,8 @@ public class UserDaoTests {
         Integer id = 1;
         String name = "hulk";
         String password = "1234";
-        UserDao userDao = new JejuConnectionMaker();
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
         User user = userDao.get(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -30,7 +31,9 @@ public class UserDaoTests {
         user.setName(name);
         user.setPassword(password);
 
-        UserDao userDao = new JejuConnectionMaker();
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
+
         userDao.insert(user);
 
         User insertedUser = userDao.get(user.getId());
@@ -45,7 +48,10 @@ public class UserDaoTests {
         Integer id = 1;
         String name = "hulk";
         String password = "1234";
-        UserDao userDao = new HallaConnectionMaker();
+
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
+
         User user = userDao.get(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
@@ -61,7 +67,9 @@ public class UserDaoTests {
         user.setName(name);
         user.setPassword(password);
 
-        UserDao userDao = new HallaConnectionMaker();
+        ConnectionMaker connectionMaker = new JejuConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
+
         userDao.insert(user);
 
         User insertedUser = userDao.get(user.getId());
