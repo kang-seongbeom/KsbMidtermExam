@@ -9,6 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.sql.SQLException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
 public class UserDaoTests {
@@ -23,7 +24,7 @@ public class UserDaoTests {
 
 
     @Test
-    public void testGet() throws SQLException, ClassNotFoundException {
+    public void testGet() throws SQLException {
         Integer id = 1;
         String name = "hulk";
         String password = "1234";
@@ -36,14 +37,13 @@ public class UserDaoTests {
     }
 
     @Test
-    public void insert() throws SQLException, ClassNotFoundException {
+    public void insert() throws SQLException {
         String name = "hulk";
         String password = "1234";
 
         User user = new User();
         user.setName(name);
         user.setPassword(password);
-
 
         userDao.insert(user);
 
@@ -52,6 +52,52 @@ public class UserDaoTests {
         assertThat(insertedUser.getId(), is(user.getId()));
         assertThat(insertedUser.getName(), is(user.getName()));
         assertThat(insertedUser.getPassword(), is(user.getPassword()));
+    }
+
+    @Test
+    public void update() throws SQLException {
+        String name = "hulk";
+        String password = "1234";
+
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+
+        userDao.insert(user);
+
+        String mName = "hulk";
+        String mPassword = "1234";
+        user.setName(mName);
+        user.setPassword(mPassword);
+
+        userDao.update(user);
+
+        User updatedUser = userDao.get(user.getId());
+
+        assertThat(updatedUser.getId(), is(user.getId()));
+        assertThat(updatedUser.getName(), is(user.getName()));
+        assertThat(updatedUser.getPassword(), is(user.getPassword()));
+
+
+    }
+
+    @Test
+    public void delete() throws SQLException {
+        String name = "hulk";
+        String password = "1234";
+
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+
+        userDao.insert(user);
+
+        userDao.delete(user.getId());
+
+        User deletedUser = userDao.get(user.getId());
+
+        assertThat(deletedUser, nullValue());
+
     }
 
 //    @Test
